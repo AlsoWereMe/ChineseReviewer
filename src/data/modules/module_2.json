@@ -1,0 +1,26 @@
+[
+  {
+    "id": "m2-q1",
+    "module": "module_2",
+    "question": "（示例）模块二题目 1：选择正确项",
+    "options": ["A", "B", "C", "D"],
+    "correct_answer": "A",
+    "description": "请在此模块的 JSON 中添加更多题目；本题池小于 20 时，测验会使用全部题目。"
+  },
+  {
+    "id": "m2-q2",
+    "module": "module_2",
+    "question": "（示例）模块二题目 2",
+    "options": ["选项甲", "选项乙", "选项丙", "选项丁"],
+    "correct_answer": "B",
+    "description": "示例解析。"
+  },
+  {
+    "id": "m2-q3",
+    "module": "module_2",
+    "question": "（示例）模块二题目 3",
+    "options": ["一", "二", "三", "四"],
+    "correct_answer": "C",
+    "description": "示例解析。"
+  }
+]

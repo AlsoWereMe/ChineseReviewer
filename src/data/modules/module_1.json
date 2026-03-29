@@ -1,0 +1,178 @@
+[
+  {
+    "id": "m1-q1",
+    "module": "module_1",
+    "question": "“你好” 的意思是？",
+    "options": ["再见", "你好", "谢谢", "对不起"],
+    "correct_answer": "B",
+    "description": "“你好”是常见的问候语，相当于英文的 Hello。"
+  },
+  {
+    "id": "m1-q2",
+    "module": "module_1",
+    "question": "汉字 “水” 有几画？",
+    "options": ["三画", "四画", "五画", "六画"],
+    "correct_answer": "B",
+    "description": "“水”字的笔顺共四画。"
+  },
+  {
+    "id": "m1-q3",
+    "module": "module_1",
+    "question": "拼音 “zh” 属于？",
+    "options": ["声母", "韵母", "声调", "整体认读音节"],
+    "correct_answer": "A",
+    "description": "zh 是双字母声母。"
+  },
+  {
+    "id": "m1-q4",
+    "module": "module_1",
+    "question": "下列哪一个是礼貌用语？",
+    "options": ["走开", "请", "闭嘴", "快点"],
+    "correct_answer": "B",
+    "description": "“请”表示礼貌请求。"
+  },
+  {
+    "id": "m1-q5",
+    "module": "module_1",
+    "question": "“书” 字的部首常被认为是？",
+    "options": ["亻", "冂", "乛", "一"],
+    "correct_answer": "C",
+    "description": "“书”传统归部为乛部（不同字典可能略有差异，此处为练习用例）。"
+  },
+  {
+    "id": "m1-q6",
+    "module": "module_1",
+    "question": "“谢谢” 用于表达？",
+    "options": ["道歉", "问候", "感谢", "告别"],
+    "correct_answer": "C",
+    "description": "“谢谢”表示感谢。"
+  },
+  {
+    "id": "m1-q7",
+    "module": "module_1",
+    "question": "现代标准汉语普通话以哪里的语音为标准？",
+    "options": ["上海", "广州", "北京", "成都"],
+    "correct_answer": "C",
+    "description": "普通话以北京语音为标准音（练习用常识题）。"
+  },
+  {
+    "id": "m1-q8",
+    "module": "module_1",
+    "question": "下列哪个是四声中的第三声？",
+    "options": ["妈", "麻", "马", "骂"],
+    "correct_answer": "C",
+    "description": "“马”读第三声（上声）。"
+  },
+  {
+    "id": "m1-q9",
+    "module": "module_1",
+    "question": "“学习” 的词性通常是？",
+    "options": ["名词", "动词", "形容词", "副词"],
+    "correct_answer": "B",
+    "description": "“学习”常作动词使用。"
+  },
+  {
+    "id": "m1-q10",
+    "module": "module_1",
+    "question": "汉字书写一般从哪边开始？",
+    "options": ["从右到左", "从左到右", "随机", "从下到上"],
+    "correct_answer": "B",
+    "description": "现代横排书写多从左到右。"
+  },
+  {
+    "id": "m1-q11",
+    "module": "module_1",
+    "question": "“再见” 用于？",
+    "options": ["见面问好", "告别", "道歉", "感谢"],
+    "correct_answer": "B",
+    "description": "“再见”用于告别。"
+  },
+  {
+    "id": "m1-q12",
+    "module": "module_1",
+    "question": "下列哪组都是翘舌音？",
+    "options": ["z c s", "zh ch sh", "b p m", "d t n"],
+    "correct_answer": "B",
+    "description": "zh、ch、sh 为翘舌音（练习用）。"
+  },
+  {
+    "id": "m1-q13",
+    "module": "module_1",
+    "question": "“对不起” 常用于？",
+    "options": ["问候", "道歉", "祝贺", "邀请"],
+    "correct_answer": "B",
+    "description": "“对不起”表示道歉。"
+  },
+  {
+    "id": "m1-q14",
+    "module": "module_1",
+    "question": "量词 “本” 常用于？",
+    "options": ["水", "书", "人", "车"],
+    "correct_answer": "B",
+    "description": "“一本书”是常见搭配。"
+  },
+  {
+    "id": "m1-q15",
+    "module": "module_1",
+    "question": "“明天” 表示？",
+    "options": ["昨天", "今天", "第二天", "去年"],
+    "correct_answer": "C",
+    "description": "“明天”指今天的下一天。"
+  },
+  {
+    "id": "m1-q16",
+    "module": "module_1",
+    "question": "下列哪个词表示否定？",
+    "options": ["是", "有", "不", "好"],
+    "correct_answer": "C",
+    "description": "“不”常用于否定。"
+  },
+  {
+    "id": "m1-q17",
+    "module": "module_1",
+    "question": "“老师” 通常指？",
+    "options": ["学生", "教师", "家长", "医生"],
+    "correct_answer": "B",
+    "description": "“老师”指教师。"
+  },
+  {
+    "id": "m1-q18",
+    "module": "module_1",
+    "question": "拼音 “ü” 与声母 “j” 相拼时写作？",
+    "options": ["ju", "jv", "jü", "jy"],
+    "correct_answer": "A",
+    "description": "j、q、x 与 ü 相拼时 ü 上两点省略，如 ju。"
+  },
+  {
+    "id": "m1-q19",
+    "module": "module_1",
+    "question": "“朋友” 的意思是？",
+    "options": ["敌人", "朋友", "老师", "家人"],
+    "correct_answer": "B",
+    "description": "“朋友”即 friend。"
+  },
+  {
+    "id": "m1-q20",
+    "module": "module_1",
+    "question": "下列哪一个是疑问词？",
+    "options": ["很", "吗", "的", "了"],
+    "correct_answer": "B",
+    "description": "“吗”常用于构成是非问句。"
+  },
+  {
+    "id": "m1-q21",
+    "module": "module_1",
+    "question": "“吃饭” 表示？",
+    "options": ["睡觉", "用餐", "运动", "学习"],
+    "correct_answer": "B",
+    "description": "“吃饭”指用餐（口语中也泛指进食）。"
+  },
+  {
+    "id": "m1-q22",
+    "module": "module_1",
+    "question": "汉字 “大” 的反义词常用？",
+    "options": ["高", "小", "多", "长"],
+    "correct_answer": "B",
+    "description": "“大”与“小”常作反义。"
+  }
+]

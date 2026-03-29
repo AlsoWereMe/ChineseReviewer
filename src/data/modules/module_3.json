@@ -1,0 +1,10 @@
+[
+  {
+    "id": "m3-q1",
+    "module": "module_3",
+    "question": "（示例）模块三题目 1",
+    "options": ["A", "B", "C", "D"],
+    "correct_answer": "D",
+    "description": "在 JSON 中补充本题库的更多题目。"
+  }
+]

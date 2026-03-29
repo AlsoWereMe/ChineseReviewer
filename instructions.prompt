@@ -1,0 +1,31 @@
+This file consists of multiple instructions that AI agents should follow.
+
+Generally speaking, my task is to create an application used to review Chinese Knowledge.
+This app should be capable to share with my friends in some online ways such as links.
+
+In detail, this app is divided into two parts.
+
+One is the Learning Part which is also the main part, users can see six button in this page.
+Each button represents a specific module of Chinese knowledge. You can leave their name with blank so that i can decide what they should be called later.
+When a user touch any of buttons, it will entry the Review Page corresponding with the botton.
+The Review page include two visible part at the beginning: Question and Four Choices.
+After users select an answer, system will told them if they are correct by using two contrasting color such like red and green.
+And then, a Description of Question will emerge to give the explanation of this question.
+This description will be closed after the user choose to go next question.
+Each time the user start to learn, system will select 20 questions from the base of questions which is the other part of app.
+After these questions are all finished, system give a summary to user.
+User can view their mistakes in a particular module which is designed by agent. For example, using localStorage to store the mistake so that showing up to user.
+
+The other is the Data Part. Developer will add a lot of questions to the database of app.
+The struct of a single question is defined as following:
+{
+    "module" : "one of six modules",
+    "question": "the specific question in Chinese",
+    "options": ["option A","option B","option C","option D"],
+    "correct_answer" : "A or B or C or D"
+    "description":"the description of this question"
+}
+
+The most important factor that agent should take in consideration is this app should be easy to deploy with low cost.
+
+Agent should consider how to make the plan more accurate and give the project a more comprehensive description.
