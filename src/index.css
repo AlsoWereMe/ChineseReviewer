@@ -96,6 +96,8 @@ select {
   margin: 0.03rem 0 0;
   font-size: 0.78rem;
   color: var(--ink-ash);
+  font-family: var(--font-serif);
+  letter-spacing: 0.03em;
 }
 
 .app-nav {
@@ -106,20 +108,29 @@ select {
 .nav-link {
   padding: 0.4rem 0.72rem;
   border-radius: 0.55rem;
-  border: 1px solid transparent;
+  border: 1px solid var(--line-wood);
   color: var(--ink-ash);
   font-weight: 600;
-  transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+  background: #f8f0df;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nav-link:hover {
-  border-color: var(--line-wood);
-  background: #f2e8d7;
+  color: #fff;
+  border-color: #114e8b;
+  background: var(--indigo);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(22, 97, 171, 0.22);
 }
 
 .nav-link--active {
   color: #fff;
-  border-color: var(--indigo);
+  border-color: #114e8b;
   background: var(--indigo);
 }
 
@@ -577,7 +588,8 @@ button {
 .mistake-card {
   display: grid;
   gap: 0.48rem;
-  background: #f8f1e6;
+  background: #f6eee0;
+  border-color: #caa268;
 }
 
 .mistake-head {
@@ -613,6 +625,30 @@ button {
   font-size: 0.93rem;
 }
 
+.answer-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  margin: 0 0.25rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 0.42rem;
+  border: 1px solid transparent;
+  font-weight: 700;
+}
+
+.answer-badge--wrong {
+  color: var(--rouge);
+  background: var(--rouge-bg);
+  border-color: var(--rouge-ochre);
+}
+
+.answer-badge--correct {
+  color: var(--jade-deep);
+  background: var(--jade-bg);
+  border-color: var(--jade-deep);
+}
+
 .mistake-card details {
   color: var(--ink-ash);
 }
@@ -620,6 +656,42 @@ button {
 .mistake-card summary {
   cursor: pointer;
   font-weight: 600;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(33, 25, 16, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.confirm-dialog {
+  width: min(92vw, 27rem);
+  display: grid;
+  gap: 0.8rem;
+  border-width: 1.5px;
+}
+
+.confirm-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+}
+
+.confirm-message {
+  margin: 0;
+  color: var(--ink-ash);
+  line-height: 1.65;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
 }
 
 code {

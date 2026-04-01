@@ -5,6 +5,13 @@ import { getQuestionsForModule } from "../data/loadQuestions";
 import type { AnswerLetter, Question } from "../data/types";
 import { pickSessionQuestions } from "../lib/questions";
 import { saveMistake } from "../lib/mistakes";
+import {
+  clearAllReviewProgress,
+  clearDraftProgress,
+  clearSavedProgress,
+  loadSavedProgress,
+  saveDraftProgress,
+} from "../lib/reviewProgress";
 
 const LETTERS: AnswerLetter[] = ["A", "B", "C", "D"];
 
@@ -16,11 +23,12 @@ export function Review() {
   const moduleId = rawId && isModuleId(rawId) ? rawId : null;
   const label = moduleId ? MODULE_LABELS[moduleId] : "";
 
-  const sessionQuestions = useMemo(() => {
+  const defaultQuestions = useMemo(() => {
     if (!moduleId) return [] as Question[];
     return pickSessionQuestions(getQuestionsForModule(moduleId));
   }, [moduleId]);
 
+  const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("quiz");
   const [answered, setAnswered] = useState(false);
@@ -29,13 +37,51 @@ export function Review() {
   const [wrongIds, setWrongIds] = useState<string[]>([]);
 
   useEffect(() => {
+    if (!moduleId) {
+      clearAllReviewProgress();
+      setSessionQuestions([]);
+      return;
+    }
+    const saved = loadSavedProgress();
+    if (saved && saved.moduleId === moduleId) {
+      setSessionQuestions(saved.sessionQuestions);
+      setIndex(saved.index);
+      setPhase(saved.phase);
+      setAnswered(saved.answered);
+      setSelected(saved.selected);
+      setCorrectCount(saved.correctCount);
+      setWrongIds(saved.wrongIds);
+      return;
+    }
+    setSessionQuestions(defaultQuestions);
     setIndex(0);
     setPhase("quiz");
     setAnswered(false);
     setSelected(null);
     setCorrectCount(0);
     setWrongIds([]);
-  }, [moduleId]);
+    clearDraftProgress();
+  }, [moduleId, defaultQuestions]);
+
+  useEffect(() => {
+    if (!moduleId) return;
+    if (phase === "summary") {
+      clearDraftProgress();
+      clearSavedProgress();
+      return;
+    }
+    if (sessionQuestions.length === 0) return;
+    saveDraftProgress({
+      moduleId,
+      sessionQuestions,
+      index,
+      phase,
+      answered,
+      selected,
+      correctCount,
+      wrongIds,
+    });
+  }, [moduleId, sessionQuestions, index, phase, answered, selected, correctCount, wrongIds]);
 
   const current = sessionQuestions[index];
   const total = sessionQuestions.length;
@@ -69,6 +115,8 @@ export function Review() {
     if (!answered) return;
     if (isLast) {
       setPhase("summary");
+      clearDraftProgress();
+      clearSavedProgress();
       return;
     }
     setIndex((i) => i + 1);

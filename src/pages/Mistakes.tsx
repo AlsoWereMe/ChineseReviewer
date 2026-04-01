@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { MODULE_IDS, MODULE_LABELS, type ModuleId } from "../config/modules";
 import { clearMistakes, loadMistakes, mistakesForModule } from "../lib/mistakes";
+import { useConfirm } from "../components/ConfirmProvider";
 
 type Filter = "all" | ModuleId;
 
@@ -17,6 +18,7 @@ function formatTime(ms: number): string {
 export function Mistakes() {
   const [filter, setFilter] = useState<Filter>("all");
   const [storeTick, setStoreTick] = useState(0);
+  const confirm = useConfirm();
 
   const list = useMemo(() => {
     void storeTick;
@@ -33,7 +35,7 @@ export function Mistakes() {
       <section className="card mistakes-top">
         <p className="eyebrow">Mistake Notebook</p>
         <h1 className="page-title">错题本</h1>
-        <p className="page-lead">题目保存在本机浏览器（localStorage），目前共 {totalAll} 条记录。</p>
+        <p className="page-lead">题目保存在本机浏览器，目前共 {totalAll} 条记录。</p>
 
         <div className="filter-row">
           <label htmlFor="module-filter">按模块筛选</label>
@@ -52,8 +54,14 @@ export function Mistakes() {
           <button
             type="button"
             className="button-danger"
-            onClick={() => {
-              if (window.confirm("确定清空所有错题记录？")) {
+            onClick={async () => {
+              const shouldClear = await confirm({
+                title: "清空错题记录",
+                message: "该操作会删除当前所有错题记录，是否继续？",
+                confirmText: "确认清空",
+                cancelText: "取消",
+              });
+              if (shouldClear) {
                 clearMistakes();
                 setFilter("all");
                 setStoreTick((t) => t + 1);
@@ -79,9 +87,11 @@ export function Mistakes() {
               </div>
               <p className="mistake-question">{m.question}</p>
               <p className="mistake-answers">
-                你的答案：<span className="text-wrong">{m.user_answer}</span>
+                你的答案：
+                <span className="answer-badge answer-badge--wrong">{m.user_answer}</span>
                 {" · "}
-                正确答案：<span className="text-correct">{m.correct_answer}</span>
+                正确答案：
+                <span className="answer-badge answer-badge--correct">{m.correct_answer}</span>
               </p>
               <details>
                 <summary>查看解析</summary>
