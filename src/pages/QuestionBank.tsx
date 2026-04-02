@@ -55,7 +55,6 @@ export function QuestionBank() {
           <details key={moduleId} className="module-accordion card bank-module" open={!search}>
             <summary className="module-accordion-summary">
               <span className="bank-module-title">{MODULE_LABELS[moduleId]}</span>
-              <span className="module-accordion-count">{list.length} 题</span>
             </summary>
             {list.length === 0 ? (
               <p className="empty">该模块暂未录入题目。</p>
