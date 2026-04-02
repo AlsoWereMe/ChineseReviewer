@@ -29,7 +29,6 @@ export function QuestionBank() {
   return (
     <div className="question-bank-page">
       <section className="card">
-        <p className="eyebrow">Question Base</p>
         <h1 className="page-title">题库总览</h1>
         <p className="page-lead">查看所有模块中的完整题目、选项、答案与解析。</p>
         <div className="bank-search-wrap">
