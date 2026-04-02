@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { MODULE_IDS, MODULE_LABELS, type ModuleId } from "../config/modules";
-import { clearMistakes, loadMistakes, mistakesForModule } from "../lib/mistakes";
+import { clearMistakes, mistakesForModule } from "../lib/mistakes";
 import { useConfirm } from "../components/ConfirmProvider";
 
 type Filter = "all" | ModuleId;
@@ -25,11 +25,6 @@ export function Mistakes() {
     void storeTick;
     return mistakesForModule(filter);
   }, [filter, storeTick]);
-
-  const totalAll = useMemo(() => {
-    void storeTick;
-    return loadMistakes().length;
-  }, [storeTick]);
 
   const grouped = useMemo(() => {
     const byModule = new Map<ModuleId, typeof list>();
