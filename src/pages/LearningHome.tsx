@@ -6,7 +6,7 @@ import {
 } from "../lib/reviewProgress";
 import { useConfirm } from "../components/ConfirmProvider";
 
-const MODULE_MOTIFS = ["📜", "🪭", "🍵", "🏮", "🏯"] as const;
+const MODULE_MOTIFS = ["☯️", "🏯", "🖌️", "🏮", "🧭"] as const;
 
 export function LearningHome() {
   const navigate = useNavigate();
