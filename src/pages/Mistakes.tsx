@@ -47,9 +47,8 @@ export function Mistakes() {
   return (
     <div className="mistakes-page">
       <section className="card mistakes-top">
-        <p className="eyebrow">Mistake Notebook</p>
         <h1 className="page-title">错题本</h1>
-        <p className="page-lead">题目保存在本机浏览器，目前共 {totalAll} 条记录。</p>
+        <p className="page-lead">题目保存在本机浏览器。</p>
 
         <div className="filter-row">
           <label htmlFor="module-filter">按模块筛选</label>
@@ -97,7 +96,6 @@ export function Mistakes() {
             <details key={moduleId} className="module-accordion card" open={filter !== "all"}>
               <summary className="module-accordion-summary">
                 <span>{MODULE_LABELS[moduleId]}</span>
-                <span className="module-accordion-count">{items.length} 题</span>
               </summary>
               <ul className="mistake-list" role="list">
                 {items.map((m) => (
