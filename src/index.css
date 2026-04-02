@@ -625,6 +625,50 @@ button {
   font-size: 0.93rem;
 }
 
+.mistake-options {
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.38rem;
+}
+
+.mistake-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid var(--line-wood);
+  border-radius: 0.5rem;
+  background: #f9f3e8;
+}
+
+.mistake-option--correct {
+  border-color: var(--jade-deep);
+  background: var(--jade-bg);
+}
+
+.mistake-option--user {
+  border-color: var(--rouge-ochre);
+  background: var(--rouge-bg);
+}
+
+.mistake-option-letter {
+  min-width: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.34rem;
+  background: #efe2cd;
+  color: var(--indigo);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.mistake-option-text {
+  line-height: 1.5;
+}
+
 .answer-badge {
   display: inline-flex;
   align-items: center;
@@ -692,6 +736,89 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 0.55rem;
+}
+
+.question-bank-page {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.bank-module {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.bank-module-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  color: var(--indigo);
+}
+
+.bank-question-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.bank-question-card {
+  border: 1px solid var(--line-wood);
+  border-radius: 0.62rem;
+  background: #f9f2e6;
+  padding: 0.7rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.bank-question-text {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.bank-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.32rem;
+}
+
+.bank-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border: 1px solid #d8c4a0;
+  border-radius: 0.45rem;
+  background: #fcf7ee;
+  padding: 0.33rem 0.45rem;
+}
+
+.bank-option--correct {
+  border-color: var(--jade-deep);
+  background: var(--jade-bg);
+}
+
+.bank-option-letter {
+  min-width: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.33rem;
+  background: #efe2cd;
+  color: var(--indigo);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.bank-answer,
+.bank-description {
+  margin: 0;
+  color: var(--ink-ash);
+  line-height: 1.55;
 }
 
 code {

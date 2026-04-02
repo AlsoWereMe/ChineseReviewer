@@ -4,6 +4,7 @@ import { clearMistakes, loadMistakes, mistakesForModule } from "../lib/mistakes"
 import { useConfirm } from "../components/ConfirmProvider";
 
 type Filter = "all" | ModuleId;
+const LETTERS = ["A", "B", "C", "D"] as const;
 
 function formatTime(ms: number): string {
   return new Date(ms).toLocaleString("zh-CN", {
@@ -93,6 +94,22 @@ export function Mistakes() {
                 正确答案：
                 <span className="answer-badge answer-badge--correct">{m.correct_answer}</span>
               </p>
+              <ul className="mistake-options" role="list">
+                {m.options.map((option, idx) => {
+                  const letter = LETTERS[idx]!;
+                  const isCorrect = letter === m.correct_answer;
+                  const isUser = letter === m.user_answer;
+                  let cls = "mistake-option";
+                  if (isCorrect) cls += " mistake-option--correct";
+                  if (isUser && !isCorrect) cls += " mistake-option--user";
+                  return (
+                    <li key={`${m.id}-${letter}`} className={cls}>
+                      <span className="mistake-option-letter">{letter}</span>
+                      <span className="mistake-option-text">{option}</span>
+                    </li>
+                  );
+                })}
+              </ul>
               <details>
                 <summary>查看解析</summary>
                 <p>{m.description}</p>

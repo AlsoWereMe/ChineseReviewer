@@ -193,7 +193,7 @@ export function Review() {
             再练一次
           </Link>
           <Link to="/" className="button-ghost">
-            返回学习
+            返回主页
           </Link>
         </div>
       </div>

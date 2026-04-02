@@ -3,6 +3,7 @@ import { Layout } from "./pages/Layout";
 import { LearningHome } from "./pages/LearningHome";
 import { Review } from "./pages/Review";
 import { Mistakes } from "./pages/Mistakes";
+import { QuestionBank } from "./pages/QuestionBank";
 import { ConfirmProvider } from "./components/ConfirmProvider";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
             <Route index element={<LearningHome />} />
             <Route path="review/:moduleId" element={<Review />} />
             <Route path="mistakes" element={<Mistakes />} />
+            <Route path="question-bank" element={<QuestionBank />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

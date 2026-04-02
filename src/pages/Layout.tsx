@@ -14,6 +14,7 @@ export function Layout() {
   const homeActive = pathname === "/";
   const learningActive = pathname.startsWith("/review");
   const mistakesActive = pathname.startsWith("/mistakes");
+  const bankActive = pathname.startsWith("/question-bank");
   const inReview = pathname.startsWith("/review");
 
   async function handleNavClick(target: string, preferSavedReview = false) {
@@ -82,6 +83,16 @@ export function Layout() {
             }}
           >
             错题
+          </Link>
+          <Link
+            to="/question-bank"
+            className={bankActive ? "nav-link nav-link--active" : "nav-link"}
+            onClick={async (e) => {
+              e.preventDefault();
+              await handleNavClick("/question-bank");
+            }}
+          >
+            题库
           </Link>
         </nav>
       </header>
