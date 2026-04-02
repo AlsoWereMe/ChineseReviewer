@@ -1,24 +1,62 @@
+import { useMemo, useState } from "react";
 import { MODULE_IDS, MODULE_LABELS } from "../config/modules";
 import { getQuestionsForModule } from "../data/loadQuestions";
 
 const LETTERS = ["A", "B", "C", "D"] as const;
 
 export function QuestionBank() {
+  const [keyword, setKeyword] = useState("");
+  const search = keyword.trim().toLowerCase();
+
+  const moduleData = useMemo(() => {
+    return MODULE_IDS.map((moduleId) => {
+      const fullList = getQuestionsForModule(moduleId);
+      if (!search) return { moduleId, list: fullList };
+      const filtered = fullList.filter((q) => {
+        if (q.question.toLowerCase().includes(search)) return true;
+        if (q.description.toLowerCase().includes(search)) return true;
+        return q.options.some((opt) => opt.toLowerCase().includes(search));
+      });
+      return { moduleId, list: filtered };
+    });
+  }, [search]);
+
+  const totalMatched = useMemo(
+    () => moduleData.reduce((sum, item) => sum + item.list.length, 0),
+    [moduleData],
+  );
+
   return (
     <div className="question-bank-page">
       <section className="card">
         <p className="eyebrow">Question Base</p>
         <h1 className="page-title">题库总览</h1>
         <p className="page-lead">查看所有模块中的完整题目、选项、答案与解析。</p>
+        <div className="bank-search-wrap">
+          <label htmlFor="bank-search" className="bank-search-label">
+            关键词搜索
+          </label>
+          <input
+            id="bank-search"
+            className="bank-search-input"
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="输入题干、选项或解析关键词"
+          />
+          <p className="bank-search-meta">
+            {search ? `当前匹配 ${totalMatched} 道题` : "未搜索时显示全部题目"}
+          </p>
+        </div>
       </section>
 
-      {MODULE_IDS.map((moduleId) => {
-        const list = getQuestionsForModule(moduleId);
+      {moduleData.map(({ moduleId, list }) => {
         return (
-          <section key={moduleId} className="card bank-module">
-            <h2 className="bank-module-title">
-              {MODULE_LABELS[moduleId]}（共 {list.length} 题）
-            </h2>
+          <details key={moduleId} className="module-accordion card bank-module" open={!search}>
+            <summary className="module-accordion-summary">
+              <span className="bank-module-title">{MODULE_LABELS[moduleId]}</span>
+              <span className="module-accordion-count">{list.length} 题</span>
+            </summary>
             {list.length === 0 ? (
               <p className="empty">该模块暂未录入题目。</p>
             ) : (
@@ -52,7 +90,7 @@ export function QuestionBank() {
                 ))}
               </ul>
             )}
-          </section>
+          </details>
         );
       })}
     </div>

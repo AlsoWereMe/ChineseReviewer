@@ -31,6 +31,19 @@ export function Mistakes() {
     return loadMistakes().length;
   }, [storeTick]);
 
+  const grouped = useMemo(() => {
+    const byModule = new Map<ModuleId, typeof list>();
+    list.forEach((item) => {
+      const arr = byModule.get(item.module);
+      if (arr) arr.push(item);
+      else byModule.set(item.module, [item]);
+    });
+    return MODULE_IDS.filter((id) => byModule.has(id)).map((id) => ({
+      moduleId: id,
+      items: byModule.get(id) ?? [],
+    }));
+  }, [list]);
+
   return (
     <div className="mistakes-page">
       <section className="card mistakes-top">
@@ -79,44 +92,54 @@ export function Mistakes() {
           <p className="empty">暂无错题，继续保持！</p>
         </section>
       ) : (
-        <ul className="mistake-list" role="list">
-          {list.map((m) => (
-            <li key={`${m.module}-${m.id}-${m.savedAt}`} className="mistake-card card">
-              <div className="mistake-head">
-                <p className="mistake-module">{MODULE_LABELS[m.module]}</p>
-                <span className="mistake-time">{formatTime(m.savedAt)}</span>
-              </div>
-              <p className="mistake-question">{m.question}</p>
-              <p className="mistake-answers">
-                你的答案：
-                <span className="answer-badge answer-badge--wrong">{m.user_answer}</span>
-                {" · "}
-                正确答案：
-                <span className="answer-badge answer-badge--correct">{m.correct_answer}</span>
-              </p>
-              <ul className="mistake-options" role="list">
-                {m.options.map((option, idx) => {
-                  const letter = LETTERS[idx]!;
-                  const isCorrect = letter === m.correct_answer;
-                  const isUser = letter === m.user_answer;
-                  let cls = "mistake-option";
-                  if (isCorrect) cls += " mistake-option--correct";
-                  if (isUser && !isCorrect) cls += " mistake-option--user";
-                  return (
-                    <li key={`${m.id}-${letter}`} className={cls}>
-                      <span className="mistake-option-letter">{letter}</span>
-                      <span className="mistake-option-text">{option}</span>
-                    </li>
-                  );
-                })}
+        <div className="module-accordion-list">
+          {grouped.map(({ moduleId, items }) => (
+            <details key={moduleId} className="module-accordion card" open={filter !== "all"}>
+              <summary className="module-accordion-summary">
+                <span>{MODULE_LABELS[moduleId]}</span>
+                <span className="module-accordion-count">{items.length} 题</span>
+              </summary>
+              <ul className="mistake-list" role="list">
+                {items.map((m) => (
+                  <li key={`${m.module}-${m.id}-${m.savedAt}`} className="mistake-card card">
+                    <div className="mistake-head">
+                      <p className="mistake-module">{MODULE_LABELS[m.module]}</p>
+                      <span className="mistake-time">{formatTime(m.savedAt)}</span>
+                    </div>
+                    <p className="mistake-question">{m.question}</p>
+                    <p className="mistake-answers">
+                      你的答案：
+                      <span className="answer-badge answer-badge--wrong">{m.user_answer}</span>
+                      {" · "}
+                      正确答案：
+                      <span className="answer-badge answer-badge--correct">{m.correct_answer}</span>
+                    </p>
+                    <ul className="mistake-options" role="list">
+                      {m.options.map((option, idx) => {
+                        const letter = LETTERS[idx]!;
+                        const isCorrect = letter === m.correct_answer;
+                        const isUser = letter === m.user_answer;
+                        let cls = "mistake-option";
+                        if (isCorrect) cls += " mistake-option--correct";
+                        if (isUser && !isCorrect) cls += " mistake-option--user";
+                        return (
+                          <li key={`${m.id}-${letter}`} className={cls}>
+                            <span className="mistake-option-letter">{letter}</span>
+                            <span className="mistake-option-text">{option}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <details>
+                      <summary>查看解析</summary>
+                      <p>{m.description}</p>
+                    </details>
+                  </li>
+                ))}
               </ul>
-              <details>
-                <summary>查看解析</summary>
-                <p>{m.description}</p>
-              </details>
-            </li>
+            </details>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
