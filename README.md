@@ -110,7 +110,7 @@ npm run preview
 2. Source选择GitHub Actions
 3. `npm run build`在本地可成功通过
 
-## 项目结构（核心目录）
+## 项目结构
 
 ```text
 src/
