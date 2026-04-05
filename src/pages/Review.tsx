@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { isModuleId, MODULE_LABELS } from "../config/modules";
 import { getQuestionsForModule } from "../data/loadQuestions";
@@ -9,8 +9,11 @@ import {
   clearAllReviewProgress,
   clearDraftProgress,
   clearSavedProgress,
+  clearSeenQuestions,
   loadSavedProgress,
+  loadSeenQuestions,
   saveDraftProgress,
+  saveSeenQuestions,
 } from "../lib/reviewProgress";
 
 const LETTERS: AnswerLetter[] = ["A", "B", "C", "D"];
@@ -23,11 +26,6 @@ export function Review() {
   const moduleId = rawId && isModuleId(rawId) ? rawId : null;
   const label = moduleId ? MODULE_LABELS[moduleId] : "";
 
-  const defaultQuestions = useMemo(() => {
-    if (!moduleId) return [] as Question[];
-    return pickSessionQuestions(getQuestionsForModule(moduleId));
-  }, [moduleId]);
-
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("quiz");
@@ -35,6 +33,40 @@ export function Review() {
   const [selected, setSelected] = useState<AnswerLetter | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
+  const [cycleNotice, setCycleNotice] = useState<string | null>(null);
+
+  const pickNewQuestions = useCallback((): { questions: Question[]; resetSeen: boolean } => {
+    if (!moduleId) return { questions: [], resetSeen: false };
+    const pool = getQuestionsForModule(moduleId);
+    let seenIds = loadSeenQuestions(moduleId);
+    const seenSet = new Set(seenIds);
+    const available = pool.filter((q) => !seenSet.has(q.id));
+    let resetSeen = false;
+    if (available.length === 0) {
+      clearSeenQuestions(moduleId);
+      seenIds = [];
+      resetSeen = true;
+    }
+    return { questions: pickSessionQuestions(pool, seenIds), resetSeen };
+  }, [moduleId]);
+
+  const startNewSession = useCallback(() => {
+    const { questions, resetSeen } = pickNewQuestions();
+    setSessionQuestions(questions);
+    setIndex(0);
+    setPhase("quiz");
+    setAnswered(false);
+    setSelected(null);
+    setCorrectCount(0);
+    setWrongIds([]);
+    setCycleNotice(
+      resetSeen
+        ? "本模块题目已全部完成，已为你重置题库记录并开启新一轮练习。"
+        : null,
+    );
+    clearDraftProgress();
+    clearSavedProgress();
+  }, [pickNewQuestions]);
 
   useEffect(() => {
     if (!moduleId) {
@@ -53,15 +85,8 @@ export function Review() {
       setWrongIds(saved.wrongIds);
       return;
     }
-    setSessionQuestions(defaultQuestions);
-    setIndex(0);
-    setPhase("quiz");
-    setAnswered(false);
-    setSelected(null);
-    setCorrectCount(0);
-    setWrongIds([]);
-    clearDraftProgress();
-  }, [moduleId, defaultQuestions]);
+    startNewSession();
+  }, [moduleId, startNewSession]);
 
   useEffect(() => {
     if (!moduleId) return;
@@ -87,6 +112,13 @@ export function Review() {
   const total = sessionQuestions.length;
   const isLast = index >= total - 1;
   const progressPct = total === 0 ? 0 : Math.round(((index + 1) / total) * 100);
+
+  useEffect(() => {
+    if (!moduleId || phase !== "quiz") return;
+    if (current) return;
+    if (getQuestionsForModule(moduleId).length === 0) return;
+    startNewSession();
+  }, [moduleId, phase, current, startNewSession]);
 
   const handlePick = useCallback(
     (letter: AnswerLetter) => {
@@ -117,12 +149,18 @@ export function Review() {
       setPhase("summary");
       clearDraftProgress();
       clearSavedProgress();
+      if (moduleId) {
+        const prev = loadSeenQuestions(moduleId);
+        const ids = sessionQuestions.map((q) => q.id);
+        saveSeenQuestions(moduleId, [...new Set([...prev, ...ids])]);
+      }
       return;
     }
     setIndex((i) => i + 1);
     setAnswered(false);
     setSelected(null);
-  }, [answered, isLast]);
+  }, [answered, isLast, moduleId, sessionQuestions]);
+
 
   if (!moduleId) {
     return (
@@ -189,9 +227,9 @@ export function Review() {
         )}
 
         <div className="summary-actions">
-          <Link to={`/review/${moduleId}`} className="button-primary">
+          <button type="button" className="button-primary" onClick={startNewSession}>
             再练一次
-          </Link>
+          </button>
           <Link to="/" className="button-ghost">
             返回主页
           </Link>
@@ -204,6 +242,7 @@ export function Review() {
 
   return (
     <div className="review card">
+      {cycleNotice && <p className="hint">{cycleNotice}</p>}
       <div className="review-head">
         <p className="review-meta">
           {label} · 第 {index + 1} / {total} 题

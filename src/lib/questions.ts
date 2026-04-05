@@ -13,10 +13,21 @@ export function shuffle<T>(items: T[]): T[] {
 
 const SESSION_SIZE = 20;
 
-/** Up to 20 questions, or the whole pool if smaller. */
-export function pickSessionQuestions(pool: Question[]): Question[] {
+/** Up to 20 questions, or the whole pool if smaller. Excludes already-seen IDs. */
+export function pickSessionQuestions(
+  pool: Question[],
+  seenIds: string[] = [],
+): Question[] {
   if (pool.length === 0) return [];
-  const shuffled = shuffle(pool);
+
+  let available = pool;
+  if (seenIds.length > 0) {
+    const seenSet = new Set(seenIds);
+    available = pool.filter((q) => !seenSet.has(q.id));
+    if (available.length === 0) available = pool;
+  }
+
+  const shuffled = shuffle(available);
   return shuffled.slice(0, Math.min(SESSION_SIZE, shuffled.length));
 }
 

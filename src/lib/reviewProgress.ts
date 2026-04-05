@@ -80,3 +80,41 @@ export function clearAllReviewProgress(): void {
   clearDraftProgress();
   clearSavedProgress();
 }
+
+/* ── Seen-questions tracking (per module) ── */
+
+const SEEN_KEY = "chinese-reviewer-seen-questions-v1";
+
+export function loadSeenQuestions(moduleId: ModuleId): string[] {
+  try {
+    const raw = localStorage.getItem(SEEN_KEY);
+    if (!raw) return [];
+    const data = JSON.parse(raw) as Record<string, string[]>;
+    return data[moduleId] ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveSeenQuestions(moduleId: ModuleId, ids: string[]): void {
+  try {
+    const raw = localStorage.getItem(SEEN_KEY);
+    const data: Record<string, string[]> = raw ? JSON.parse(raw) : {};
+    data[moduleId] = ids;
+    localStorage.setItem(SEEN_KEY, JSON.stringify(data));
+  } catch {
+    /* noop */
+  }
+}
+
+export function clearSeenQuestions(moduleId: ModuleId): void {
+  try {
+    const raw = localStorage.getItem(SEEN_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw) as Record<string, string[]>;
+    delete data[moduleId];
+    localStorage.setItem(SEEN_KEY, JSON.stringify(data));
+  } catch {
+    /* noop */
+  }
+}
