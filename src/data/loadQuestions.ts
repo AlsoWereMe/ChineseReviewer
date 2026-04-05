@@ -1,10 +1,10 @@
 import type { Question } from "./types";
 import type { ModuleId } from "../config/modules";
-import module1 from "./modules/chinese_philosophy_basics.json";
-import module2 from "./modules/chinese_history_basics.json";
-import module3 from "./modules/chinese_literature_basics.json";
-import module4 from "./modules/chinese_art_basics.json";
-import module5 from "./modules/ancient_chinese_science_basics.json";
+import module1 from "./modules/philosophy.json";
+import module2 from "./modules/history.json";
+import module3 from "./modules/literature.json";
+import module4 from "./modules/art.json";
+import module5 from "./modules/science.json";
 
 const BY_MODULE: Record<ModuleId, Question[]> = {
   module_1: module1 as Question[],
