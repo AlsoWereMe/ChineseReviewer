@@ -173,7 +173,6 @@ select {
 .choice,
 .choice-text,
 .review-meta,
-.review-percent,
 .feedback,
 .description-box p,
 .mistake-question,
@@ -278,19 +277,6 @@ button {
   font-weight: 600;
 }
 
-.review-percent {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--ink-ash);
-}
-
-.review-question-id {
-  margin: 0;
-  color: var(--ink-ash);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
 .jump-panel {
   display: grid;
   gap: 0.4rem;
@@ -320,6 +306,15 @@ button {
   font-size: clamp(1.16rem, 3.8vw, 1.45rem);
   font-weight: 700;
   line-height: 1.5;
+}
+
+.question-code {
+  margin-right: 0.35rem;
+  font-family: "Times New Roman", Times, serif;
+  color: #6f5a3f;
+  font-size: inherit;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .choices {

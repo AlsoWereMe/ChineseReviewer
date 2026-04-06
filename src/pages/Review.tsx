@@ -247,9 +247,7 @@ export function Review() {
         <p className="review-meta">
           {label} · {modeText} · 第 {index + 1} / {total} 题
         </p>
-        <p className="review-percent">{progressPct}%</p>
       </div>
-      <p className="review-question-id">数据库题号：{current.id}</p>
 
       {mode === "sequential" && (
         <div className="jump-panel">
@@ -266,7 +264,7 @@ export function Review() {
                 setJumpInput(e.target.value);
                 setJumpError(null);
               }}
-              placeholder="例如 LIT-001 或 12"
+              placeholder="例如m1-q001或1"
             />
             <button type="button" className="button-ghost" onClick={handleJumpToQuestion}>
               跳转
@@ -279,7 +277,10 @@ export function Review() {
         <span style={{ width: `${progressPct}%` }} />
       </div>
 
-      <h1 className="question-text">{current.question}</h1>
+      <h1 className="question-text">
+        <span className="question-code">[{current.id}]</span>
+        {current.question}
+      </h1>
 
       <div className="choices" role="group" aria-label="选项">
         {LETTERS.map((letter, i) => {
