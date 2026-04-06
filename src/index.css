@@ -284,6 +284,22 @@ button {
   color: var(--ink-ash);
 }
 
+.review-question-id {
+  margin: 0;
+  color: var(--ink-ash);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.jump-panel {
+  display: grid;
+  gap: 0.4rem;
+  border: 1px solid var(--line-wood);
+  border-radius: 0.62rem;
+  background: #faf4e8;
+  padding: 0.7rem;
+}
+
 .progress-track {
   width: 100%;
   height: 0.46rem;
@@ -760,6 +776,50 @@ button {
   display: grid;
   gap: 0.8rem;
   border-width: 1.5px;
+}
+
+.mode-dialog {
+  width: min(92vw, 34rem);
+  display: grid;
+  gap: 0.9rem;
+  border-width: 1.5px;
+}
+
+.mode-block {
+  border: 1px solid var(--line-wood);
+  border-radius: 0.62rem;
+  padding: 0.75rem;
+  background: #faf4e8;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.mode-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+
+.mode-random-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.mode-input {
+  width: 9rem;
+  border: 1px solid var(--line-wood);
+  border-radius: 0.58rem;
+  background: #fcf7ee;
+  color: var(--ink-black);
+  padding: 0.52rem 0.72rem;
+  outline: none;
+}
+
+.mode-input:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 2px rgba(22, 97, 171, 0.15);
 }
 
 .confirm-title {

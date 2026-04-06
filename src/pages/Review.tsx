@@ -1,30 +1,34 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { isModuleId, MODULE_LABELS } from "../config/modules";
 import { getQuestionsForModule } from "../data/loadQuestions";
 import type { AnswerLetter, Question } from "../data/types";
-import { pickSessionQuestions } from "../lib/questions";
+import { pickRandomQuestions } from "../lib/questions";
 import { saveMistake } from "../lib/mistakes";
-import {
-  clearAllReviewProgress,
-  clearDraftProgress,
-  clearSavedProgress,
-  clearSeenQuestions,
-  loadSavedProgress,
-  loadSeenQuestions,
-  saveDraftProgress,
-  saveSeenQuestions,
-} from "../lib/reviewProgress";
+import { clearAllReviewProgress } from "../lib/reviewProgress";
 
 const LETTERS: AnswerLetter[] = ["A", "B", "C", "D"];
+const MIN_RANDOM_COUNT = 10;
+const MAX_RANDOM_COUNT = 30;
+const DEFAULT_RANDOM_COUNT = 20;
 
 type Phase = "quiz" | "summary";
+type ReviewMode = "random" | "sequential";
+
+function parseRandomCount(raw: string | null): number {
+  const parsed = Number.parseInt(raw ?? "", 10);
+  if (!Number.isInteger(parsed)) return DEFAULT_RANDOM_COUNT;
+  return Math.max(MIN_RANDOM_COUNT, Math.min(MAX_RANDOM_COUNT, parsed));
+}
 
 export function Review() {
   const { moduleId: rawId } = useParams<{ moduleId: string }>();
+  const [searchParams] = useSearchParams();
 
   const moduleId = rawId && isModuleId(rawId) ? rawId : null;
   const label = moduleId ? MODULE_LABELS[moduleId] : "";
+  const mode: ReviewMode = searchParams.get("mode") === "sequential" ? "sequential" : "random";
+  const randomCount = parseRandomCount(searchParams.get("count"));
 
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
@@ -33,25 +37,26 @@ export function Review() {
   const [selected, setSelected] = useState<AnswerLetter | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
-  const [cycleNotice, setCycleNotice] = useState<string | null>(null);
+  const [modeNotice, setModeNotice] = useState<string | null>(null);
+  const [jumpInput, setJumpInput] = useState("");
+  const [jumpError, setJumpError] = useState<string | null>(null);
 
-  const pickNewQuestions = useCallback((): { questions: Question[]; resetSeen: boolean } => {
-    if (!moduleId) return { questions: [], resetSeen: false };
+  const modeText = useMemo(() => {
+    if (mode === "sequential") return "顺序浏览";
+    return `随机复习（${randomCount}题）`;
+  }, [mode, randomCount]);
+
+  const startSession = useCallback(() => {
+    if (!moduleId) return;
     const pool = getQuestionsForModule(moduleId);
-    let seenIds = loadSeenQuestions(moduleId);
-    const seenSet = new Set(seenIds);
-    const available = pool.filter((q) => !seenSet.has(q.id));
-    let resetSeen = false;
-    if (available.length === 0) {
-      clearSeenQuestions(moduleId);
-      seenIds = [];
-      resetSeen = true;
-    }
-    return { questions: pickSessionQuestions(pool, seenIds), resetSeen };
-  }, [moduleId]);
 
-  const startNewSession = useCallback(() => {
-    const { questions, resetSeen } = pickNewQuestions();
+    const questions =
+      mode === "sequential" ? pool : pickRandomQuestions(pool, Math.min(randomCount, pool.length));
+
+    let notice: string | null = null;
+    if (mode === "random" && pool.length < randomCount) {
+      notice = `当前模块共有 ${pool.length} 题，已按全部题目开始随机复习。`;
+    }
     setSessionQuestions(questions);
     setIndex(0);
     setPhase("quiz");
@@ -59,14 +64,20 @@ export function Review() {
     setSelected(null);
     setCorrectCount(0);
     setWrongIds([]);
-    setCycleNotice(
-      resetSeen
-        ? "本模块题目已全部完成，已为你重置题库记录并开启新一轮练习。"
-        : null,
-    );
-    clearDraftProgress();
-    clearSavedProgress();
-  }, [pickNewQuestions]);
+    setJumpInput("");
+    setJumpError(null);
+    setModeNotice(notice);
+  }, [moduleId, mode, randomCount]);
+
+  useEffect(() => {
+    clearAllReviewProgress();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearAllReviewProgress();
+    };
+  }, []);
 
   useEffect(() => {
     if (!moduleId) {
@@ -74,39 +85,8 @@ export function Review() {
       setSessionQuestions([]);
       return;
     }
-    const saved = loadSavedProgress();
-    if (saved && saved.moduleId === moduleId) {
-      setSessionQuestions(saved.sessionQuestions);
-      setIndex(saved.index);
-      setPhase(saved.phase);
-      setAnswered(saved.answered);
-      setSelected(saved.selected);
-      setCorrectCount(saved.correctCount);
-      setWrongIds(saved.wrongIds);
-      return;
-    }
-    startNewSession();
-  }, [moduleId, startNewSession]);
-
-  useEffect(() => {
-    if (!moduleId) return;
-    if (phase === "summary") {
-      clearDraftProgress();
-      clearSavedProgress();
-      return;
-    }
-    if (sessionQuestions.length === 0) return;
-    saveDraftProgress({
-      moduleId,
-      sessionQuestions,
-      index,
-      phase,
-      answered,
-      selected,
-      correctCount,
-      wrongIds,
-    });
-  }, [moduleId, sessionQuestions, index, phase, answered, selected, correctCount, wrongIds]);
+    startSession();
+  }, [moduleId, startSession]);
 
   const current = sessionQuestions[index];
   const total = sessionQuestions.length;
@@ -117,8 +97,8 @@ export function Review() {
     if (!moduleId || phase !== "quiz") return;
     if (current) return;
     if (getQuestionsForModule(moduleId).length === 0) return;
-    startNewSession();
-  }, [moduleId, phase, current, startNewSession]);
+    startSession();
+  }, [moduleId, phase, current, startSession]);
 
   const handlePick = useCallback(
     (letter: AnswerLetter) => {
@@ -147,19 +127,38 @@ export function Review() {
     if (!answered) return;
     if (isLast) {
       setPhase("summary");
-      clearDraftProgress();
-      clearSavedProgress();
-      if (moduleId) {
-        const prev = loadSeenQuestions(moduleId);
-        const ids = sessionQuestions.map((q) => q.id);
-        saveSeenQuestions(moduleId, [...new Set([...prev, ...ids])]);
-      }
       return;
     }
     setIndex((i) => i + 1);
     setAnswered(false);
     setSelected(null);
-  }, [answered, isLast, moduleId, sessionQuestions]);
+  }, [answered, isLast]);
+
+  const handleJumpToQuestion = useCallback(() => {
+    if (mode !== "sequential") return;
+    const keyword = jumpInput.trim();
+    if (!keyword) {
+      setJumpError("请输入题号或顺序号。");
+      return;
+    }
+
+    const byId = sessionQuestions.findIndex((q) => q.id.toLowerCase() === keyword.toLowerCase());
+    let targetIndex = byId;
+    if (targetIndex < 0 && /^\d+$/.test(keyword)) {
+      const n = Number.parseInt(keyword, 10);
+      if (Number.isInteger(n)) targetIndex = n - 1;
+    }
+
+    if (targetIndex < 0 || targetIndex >= sessionQuestions.length) {
+      setJumpError("未找到对应题目，请检查输入后重试。");
+      return;
+    }
+
+    setIndex(targetIndex);
+    setAnswered(false);
+    setSelected(null);
+    setJumpError(null);
+  }, [jumpInput, mode, sessionQuestions]);
 
 
   if (!moduleId) {
@@ -196,6 +195,7 @@ export function Review() {
       <div className="summary card page-narrow">
         <p className="eyebrow">练习完成</p>
         <h1 className="page-title">{label}</h1>
+        <p className="page-lead">学习模式：{modeText}</p>
 
         <div className="summary-metrics">
           <article className="metric-card">
@@ -227,9 +227,9 @@ export function Review() {
         )}
 
         <div className="summary-actions">
-          <button type="button" className="button-primary" onClick={startNewSession}>
-            再练一次
-          </button>
+          <Link to="/" className="button-primary">
+            重新选择模式
+          </Link>
           <Link to="/" className="button-ghost">
             返回主页
           </Link>
@@ -242,13 +242,39 @@ export function Review() {
 
   return (
     <div className="review card">
-      {cycleNotice && <p className="hint">{cycleNotice}</p>}
+      {modeNotice && <p className="hint">{modeNotice}</p>}
       <div className="review-head">
         <p className="review-meta">
-          {label} · 第 {index + 1} / {total} 题
+          {label} · {modeText} · 第 {index + 1} / {total} 题
         </p>
         <p className="review-percent">{progressPct}%</p>
       </div>
+      <p className="review-question-id">数据库题号：{current.id}</p>
+
+      {mode === "sequential" && (
+        <div className="jump-panel">
+          <label htmlFor="jump-input" className="bank-search-label">
+            跳到题号（支持数据库题号或顺序号）
+          </label>
+          <div className="mode-random-row">
+            <input
+              id="jump-input"
+              className="mode-input"
+              type="text"
+              value={jumpInput}
+              onChange={(e) => {
+                setJumpInput(e.target.value);
+                setJumpError(null);
+              }}
+              placeholder="例如 LIT-001 或 12"
+            />
+            <button type="button" className="button-ghost" onClick={handleJumpToQuestion}>
+              跳转
+            </button>
+          </div>
+          {jumpError && <p className="text-wrong">{jumpError}</p>}
+        </div>
+      )}
       <div className="progress-track" aria-hidden="true">
         <span style={{ width: `${progressPct}%` }} />
       </div>

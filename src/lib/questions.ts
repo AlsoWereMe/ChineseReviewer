@@ -11,24 +11,11 @@ export function shuffle<T>(items: T[]): T[] {
   return out;
 }
 
-const SESSION_SIZE = 20;
-
-/** Up to 20 questions, or the whole pool if smaller. Excludes already-seen IDs. */
-export function pickSessionQuestions(
-  pool: Question[],
-  seenIds: string[] = [],
-): Question[] {
+/** Pick a random subset from the pool with an upper bound. */
+export function pickRandomQuestions(pool: Question[], count: number): Question[] {
   if (pool.length === 0) return [];
-
-  let available = pool;
-  if (seenIds.length > 0) {
-    const seenSet = new Set(seenIds);
-    available = pool.filter((q) => !seenSet.has(q.id));
-    if (available.length === 0) available = pool;
-  }
-
-  const shuffled = shuffle(available);
-  return shuffled.slice(0, Math.min(SESSION_SIZE, shuffled.length));
+  const safeCount = Math.max(1, count);
+  return shuffle(pool).slice(0, Math.min(safeCount, pool.length));
 }
 
 export function letterToIndex(letter: AnswerLetter): number {
