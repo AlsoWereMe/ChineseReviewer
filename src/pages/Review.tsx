@@ -252,7 +252,7 @@ export function Review() {
       {mode === "sequential" && (
         <div className="jump-panel">
           <label htmlFor="jump-input" className="bank-search-label">
-            跳到题号（支持数据库题号或顺序号）
+            输入具体的题号或数字跳转到指定题目
           </label>
           <div className="mode-random-row">
             <input
