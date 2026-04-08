@@ -107,19 +107,6 @@ npm run preview
 2. Source选择GitHub Actions
 3. `npm run build`在本地可成功通过
 
-## 反馈提交配置（Formspree）
-
-首页反馈弹窗会向 Formspree endpoint 发送最小字段（`feedbackTime`、`feedbackType`、`feedbackText`）。
-
-- 当前默认 endpoint：`https://formspree.io/f/xqegjbve`
-- 也可通过环境变量覆盖：`VITE_FORMSPREE_ENDPOINT`
-
-本地开发可在项目根目录创建 `.env.local`：
-
-```bash
-VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/xqegjbve
-```
-
 ## 项目结构
 
 ```text
