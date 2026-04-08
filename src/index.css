@@ -204,6 +204,11 @@ button {
   gap: 0.8rem;
 }
 
+.learning-home {
+  display: grid;
+  gap: 0.9rem;
+}
+
 @media (min-width: 600px) {
   .module-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -778,6 +783,80 @@ button {
   display: grid;
   gap: 0.9rem;
   border-width: 1.5px;
+}
+
+.feedback-entry {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.feedback-entry-copy {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.feedback-entry-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.03rem;
+}
+
+.feedback-dialog {
+  width: min(92vw, 34rem);
+  display: grid;
+  gap: 0.9rem;
+  border-width: 1.5px;
+}
+
+.feedback-form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.feedback-type-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.feedback-label {
+  font-weight: 700;
+  color: var(--ink-ash);
+  font-size: 0.92rem;
+}
+
+.feedback-type-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-black);
+}
+
+.feedback-textarea {
+  width: 100%;
+  border: 1px solid var(--line-wood);
+  border-radius: 0.58rem;
+  background: #fcf7ee;
+  color: var(--ink-black);
+  padding: 0.6rem 0.72rem;
+  resize: vertical;
+  min-height: 7.4rem;
+  outline: none;
+}
+
+.feedback-textarea:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 2px rgba(22, 97, 171, 0.15);
+}
+
+.feedback-counter {
+  margin-top: -0.2rem;
 }
 
 .mode-block {
