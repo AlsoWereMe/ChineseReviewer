@@ -969,6 +969,35 @@ button {
   color: var(--indigo);
 }
 
+.bank-expand-cta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5.5rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #0f4b8f;
+  background: #1661ab;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.bank-expand-cta-close {
+  display: none;
+}
+
+.bank-module[open] > .module-accordion-summary .bank-expand-cta-open {
+  display: none;
+}
+
+.bank-module[open] > .module-accordion-summary .bank-expand-cta-close {
+  display: inline;
+}
+
 .bank-question-list {
   list-style: none;
   margin: 0.65rem 0 0;

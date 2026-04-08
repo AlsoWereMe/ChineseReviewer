@@ -51,9 +51,13 @@ export function QuestionBank() {
 
       {moduleData.map(({ moduleId, list }) => {
         return (
-          <details key={moduleId} className="module-accordion card bank-module" open={!search}>
+          <details key={moduleId} className="module-accordion card bank-module" open={Boolean(search)}>
             <summary className="module-accordion-summary">
               <span className="bank-module-title">{MODULE_LABELS[moduleId]}</span>
+              <span className="bank-expand-cta" aria-hidden="true">
+                <span className="bank-expand-cta-open">展开题目</span>
+                <span className="bank-expand-cta-close">收起题目</span>
+              </span>
             </summary>
             {list.length === 0 ? (
               <p className="empty">该模块暂未录入题目。</p>
