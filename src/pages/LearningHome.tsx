@@ -129,7 +129,7 @@ export function LearningHome() {
       <div className="feedback-entry card">
         <div className="feedback-entry-copy">
           <h2 className="feedback-entry-title">有问题或建议？</h2>
-          <p className="hint">
+          <p className="hint feedback-entry-note">
             仅提交反馈时间、反馈类型和反馈说明，不收集个人身份信息。
           </p>
         </div>

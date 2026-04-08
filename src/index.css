@@ -804,6 +804,13 @@ button {
   font-size: 1.03rem;
 }
 
+.feedback-entry-note {
+  margin-top: 0.18rem;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  opacity: 0.88;
+}
+
 .feedback-dialog {
   width: min(92vw, 34rem);
   display: grid;
