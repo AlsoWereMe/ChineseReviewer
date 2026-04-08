@@ -57,7 +57,7 @@ npm run preview
 ```json
 {
   "id": "mX_qYY",
-  "module": "module_X",
+  "module": "XX",
   "question": "以下哪位思想家提出“仁者爱人”？",
   "options": ["老子", "孔子", "墨子", "韩非子"],
   "correct_answer": "B",
@@ -68,7 +68,7 @@ npm run preview
 字段要求：
 
 - `id`: 题目唯一 ID（建议全局唯一）
-- `module`: 所属模块 ID（如 `module_1`）
+- `module`: 所属模块 ID（如 `中国艺术常识`）
 - `question`: 题干
 - `options`: 四个选项（按 A/B/C/D 顺序）
 - `correct_answer`: 正确答案（`A` / `B` / `C` / `D`）
@@ -78,7 +78,7 @@ npm run preview
 
 模块定义位于 `src/config/modules.ts`，包括：
 
-- 模块ID（`module_1` ~ `module_5`）
+- 模块ID
 - 模块中文名称（用于首页、学习页和错题页展示）
 
 如需新增/调整模块，请同步更新：
@@ -86,20 +86,15 @@ npm run preview
 - `src/config/modules.ts`
 - `src/data/loadQuestions.ts` 中的模块数据映射
 
-## 进度与错题存储
+## 错题存储
 
-本项目所有学习状态均保存在浏览器 `localStorage`，不依赖后端：
+错题保存在浏览器 `localStorage`。
 
-- 错题本数据
-
-清除浏览器站点数据后，以上信息会被清空。
+所以，清除浏览器站点数据后，这些信息会被清空。
 
 ## 部署
 
 仓库已包含 GitHub Pages 工作流，详见 `.github/workflows/deploy.yml`：
-
-- 推送到 `main` 自动触发构建与部署
-- Vite `base` 会根据 `GITHUB_REPOSITORY` 自动适配仓库名
 
 部署前请确认：
 
