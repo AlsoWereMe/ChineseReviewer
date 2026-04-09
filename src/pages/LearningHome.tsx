@@ -6,6 +6,7 @@ import { getQuestionsForModule } from "../data/loadQuestions";
 import { submitFeedback, type FeedbackType } from "../lib/feedback";
 
 const MODULE_MOTIFS = ["☯️", "🏯", "🖌️", "🏮", "🧭"] as const;
+const EXAM_MOTIF = "🧪";
 
 export function LearningHome() {
   const navigate = useNavigate();
@@ -125,6 +126,16 @@ export function LearningHome() {
             </Link>
           </li>
         ))}
+        <li key="exam-module">
+          <Link className="module-button" to="/exams">
+            <span className="module-icon" aria-hidden="true">
+              {EXAM_MOTIF}
+            </span>
+            <span className="module-index">06</span>
+            <span className="module-name">模拟测试</span>
+            <span className="module-hint">选择试卷</span>
+          </Link>
+        </li>
       </ul>
       <div className="feedback-entry card">
         <div className="feedback-entry-copy">

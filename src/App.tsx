@@ -5,6 +5,8 @@ import { Review } from "./pages/Review";
 import { Mistakes } from "./pages/Mistakes";
 import { QuestionBank } from "./pages/QuestionBank";
 import { ConfirmProvider } from "./components/ConfirmProvider";
+import { ExamHome } from "./pages/ExamHome";
+import { Exam } from "./pages/Exam";
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<LearningHome />} />
             <Route path="review/:moduleId" element={<Review />} />
+            <Route path="exams" element={<ExamHome />} />
+            <Route path="exam/:paperId" element={<Exam />} />
             <Route path="mistakes" element={<Mistakes />} />
             <Route path="question-bank" element={<QuestionBank />} />
             <Route path="*" element={<Navigate to="/" replace />} />
