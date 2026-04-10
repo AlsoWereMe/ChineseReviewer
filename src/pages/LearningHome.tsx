@@ -144,9 +144,14 @@ export function LearningHome() {
             仅提交反馈时间、反馈类型和反馈说明，不收集个人身份信息。
           </p>
         </div>
-        <button type="button" className="button-primary" onClick={openFeedbackDialog}>
-          反馈意见
-        </button>
+        <div className="feedback-entry-actions">
+          <Link to="/known-issues" className="button-link-tiny">
+            已发现问题说明
+          </Link>
+          <button type="button" className="button-primary" onClick={openFeedbackDialog}>
+            反馈意见
+          </button>
+        </div>
       </div>
 
       {isFeedbackOpen && (

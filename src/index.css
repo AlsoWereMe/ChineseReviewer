@@ -802,6 +802,37 @@ button {
   flex-wrap: wrap;
 }
 
+.feedback-entry-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.button-link-tiny {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.36rem 0.62rem;
+  border-radius: 0.55rem;
+  border: 1px solid var(--line-wood);
+  background: #f8f0df;
+  color: var(--ink-ash);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.button-link-tiny:hover {
+  color: #fff;
+  border-color: #114e8b;
+  background: var(--indigo);
+}
+
 .feedback-entry-copy {
   display: grid;
   gap: 0.3rem;
@@ -1167,6 +1198,27 @@ button {
   padding: 0.72rem;
   display: grid;
   gap: 0.4rem;
+}
+
+.known-issues-page {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.known-issues-list {
+  margin: 0;
+  padding-left: 1.35rem;
+  display: grid;
+  gap: 0.65rem;
+  color: var(--ink-black);
+  line-height: 1.72;
+}
+
+.known-issues-footer {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--rouge);
 }
 
 code {

@@ -7,6 +7,7 @@ import { QuestionBank } from "./pages/QuestionBank";
 import { ConfirmProvider } from "./components/ConfirmProvider";
 import { ExamHome } from "./pages/ExamHome";
 import { Exam } from "./pages/Exam";
+import { KnownIssues } from "./pages/KnownIssues";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="exam/:paperId" element={<Exam />} />
             <Route path="mistakes" element={<Mistakes />} />
             <Route path="question-bank" element={<QuestionBank />} />
+            <Route path="known-issues" element={<KnownIssues />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
