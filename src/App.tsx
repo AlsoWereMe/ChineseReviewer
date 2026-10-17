@@ -5,6 +5,7 @@ import { Review } from "./pages/Review";
 import { Mistakes } from "./pages/Mistakes";
 import { QuestionBank } from "./pages/QuestionBank";
 import { ConfirmProvider } from "./components/ConfirmProvider";
+import { MaintenanceNotice } from "./components/MaintenanceNotice";
 import { ExamHome } from "./pages/ExamHome";
 import { Exam } from "./pages/Exam";
 import { KnownIssues } from "./pages/KnownIssues";
@@ -12,6 +13,7 @@ import { KnownIssues } from "./pages/KnownIssues";
 export default function App() {
   return (
     <ConfirmProvider>
+      <MaintenanceNotice />
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Layout />}>

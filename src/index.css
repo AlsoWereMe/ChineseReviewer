@@ -794,18 +794,9 @@ button {
   border-width: 1.5px;
 }
 
-.feedback-entry {
+.learning-home-links {
   display: flex;
-  gap: 0.8rem;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.feedback-entry-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
+  justify-content: flex-end;
 }
 
 .button-link-tiny {
@@ -831,79 +822,6 @@ button {
   color: #fff;
   border-color: #114e8b;
   background: var(--indigo);
-}
-
-.feedback-entry-copy {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.feedback-entry-title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 1.03rem;
-}
-
-.feedback-entry-note {
-  margin-top: 0.18rem;
-  font-size: 0.76rem;
-  line-height: 1.3;
-  opacity: 0.88;
-}
-
-.feedback-dialog {
-  width: min(92vw, 34rem);
-  display: grid;
-  gap: 0.9rem;
-  border-width: 1.5px;
-}
-
-.feedback-form {
-  display: grid;
-  gap: 0.65rem;
-}
-
-.feedback-type-group {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  display: flex;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.feedback-label {
-  font-weight: 700;
-  color: var(--ink-ash);
-  font-size: 0.92rem;
-}
-
-.feedback-type-option {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--ink-black);
-}
-
-.feedback-textarea {
-  width: 100%;
-  border: 1px solid var(--line-wood);
-  border-radius: 0.58rem;
-  background: #fcf7ee;
-  color: var(--ink-black);
-  padding: 0.6rem 0.72rem;
-  resize: vertical;
-  min-height: 7.4rem;
-  outline: none;
-}
-
-.feedback-textarea:focus {
-  border-color: var(--indigo);
-  box-shadow: 0 0 0 2px rgba(22, 97, 171, 0.15);
-}
-
-.feedback-counter {
-  margin-top: -0.2rem;
 }
 
 .mode-block {
@@ -959,6 +877,55 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 0.55rem;
+}
+
+.maintenance-notice {
+  width: min(calc(100% - 2rem), 30rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: clamp(1.1rem, 4vw, 1.6rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--ink-black);
+  background: var(--card-bg);
+  border: 1px solid var(--line-wood);
+  border-top: 3px solid var(--vermilion);
+  border-radius: 0.78rem;
+  box-shadow: 0 16px 48px rgba(89, 64, 38, 0.2);
+}
+
+.maintenance-notice::backdrop {
+  background: rgba(33, 25, 16, 0.42);
+  backdrop-filter: blur(2px);
+}
+
+.maintenance-notice-content,
+.maintenance-notice-copy {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.maintenance-notice .confirm-title {
+  font-size: 1.45rem;
+}
+
+.maintenance-notice-next {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line-wood);
+  border-radius: 0.62rem;
+  background: #faf4e8;
+  line-height: 1.7;
+}
+
+.maintenance-notice-next strong {
+  color: var(--indigo);
+  font-family: var(--font-serif);
+}
+
+.maintenance-notice .button-primary:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 3px;
 }
 
 .question-bank-page {

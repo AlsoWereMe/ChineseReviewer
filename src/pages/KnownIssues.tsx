@@ -2,7 +2,7 @@ export function KnownIssues() {
   return (
     <section className="card known-issues-page">
       <h1 className="page-title">已发现问题说明</h1>
-      <p className="page-lead">以下内容为已发现但暂未及时在题库中完成改动的勘误说明。</p>
+      <p className="page-lead">以下为题库中已发现问题的勘误说明，使用时请一并参考。</p>
 
       <ol className="known-issues-list">
         <li>
@@ -16,7 +16,7 @@ export function KnownIssues() {
         </li>
       </ol>
 
-      <p className="known-issues-footer">人力问题无法及时更正、回复反馈提到的问题，请参考此处的文本更正观念</p>
+      <p className="known-issues-footer">本站已停止维护，请结合此处勘误与可靠资料核对题库内容。</p>
     </section>
   );
 }
